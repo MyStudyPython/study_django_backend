@@ -37,7 +37,23 @@ class UserProfile(AbstractUser):
 
     class Meta:
         verbose_name = "用户"
+        # 复数形式
         verbose_name_plural = "用户"
+
+    def __str__(self):
+        return self.name
+
+
+class VerifyCode(models.Model):
+    code = models.CharField(max_length=10, verbose_name="验证码")
+    mobile = models.ForeignKey(max_length=11, verbose_name="电话")
+
+    add_time = models.DateField(default=datetime.now, verbose_name="添加时间")
+    is_delete = models.BooleanField(default=False, verbose_name="是否删除")
+
+    class Meta:
+        verbose_name = "短信验证码"
+        verbose_name_plural = verbose_name
 
     def __str__(self):
         return self.name

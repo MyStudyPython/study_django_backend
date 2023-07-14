@@ -28,6 +28,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = "users.UserProfile"
+
 
 # Application definition
 
@@ -38,8 +40,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # 新增'users'代码，激活app
-    # "users",
 ]
 
 MIDDLEWARE = [
