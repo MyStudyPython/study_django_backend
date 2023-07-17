@@ -146,3 +146,23 @@ class GoodsImage(models.Model):
 
     def __str__(self):
         return self.goods.name
+
+
+class Banner(models.Model):
+    """轮播商品"""
+
+    goods = models.ForeignKey(
+        Goods, verbose_name="商品", null=True, on_delete=models.SET_NULL
+    )
+    image = models.ImageField(upload_to="banner", verbose_name="轮播图片")
+    index = models.IntegerField(default=0, verbose_name="轮播顺序")
+
+    add_time = models.DateField(default=datetime.now, verbose_name="添加时间")
+    is_delete = models.BooleanField(default=False, verbose_name="是否删除")
+
+    class Meta:
+        verbose_name = "轮播商品"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.goods.name
