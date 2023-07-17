@@ -54,3 +54,59 @@ class GoodsCategory(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class GoodsCategoryBrand(models.Model):
+    """品牌名"""
+
+    name = models.CharField(
+        default="", max_length=30, verbose_name="品牌名", help_text="品牌名"
+    )
+    desc = models.TextField(
+        default="", max_length=200, verbose_name="品牌描述", help_text="品牌描述"
+    )
+    img = models.ImageField(max_length=200, upload_to="brand/images/")
+    add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
+    is_delete = models.BooleanField(default=False, verbose_name="是否删除")
+
+    class Meta:
+        verbose_name = "品牌"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name
+
+
+class Goods(models.Model):
+    """商品"""
+
+    category = models.ForeignKey(
+        GoodsCategory, verbose_name="商品类目", null=True, on_delete=models.SET_NULL
+    )
+    goods_sn = models.CharField(max_length=50, default="", verbose_name="商品唯一货号")
+    name = models.CharField(max_length=300, verbose_name="商品名")
+
+    click_num = models.IntegerField(default=0, verbose_name="点击量")
+    sold_num = models.IntegerField(default=0, verbose_name="销售量")
+    fav_num = models.IntegerField(default=0, verbose_name="收藏量")
+    goods_num = models.IntegerField(default=0, verbose_name="库存量")
+    market_price = models.Integer(default=0, verbose_name="市场价格")
+    shop_price = models.IntegerField(default=0, verbose_name="本店价格")
+    goods_brief = models.IntegerField(default=0, verbose_name="商品简介")
+    goods_desc = UEditorField(
+        verbose_name="内容",
+        imagePath="goods/images/",
+        width=1000,
+        height=300,
+        filePath="goods/files/",
+        default="",
+    )
+    ship_free = models.BooleanField(default=True, verbose_name="是否承担运费")
+    goods_font_image = models.ImageField(
+        upload_to="goods/images/", null=True, blank=True
+    )
+    is_new = models.BooleanField(default=False, verbose_name="是否新品")
+    is_home = models.BooleanField(default=False, verbose_name="是否热销")
+
+    add_time = models.DateField(default=datetime.now, verbose_name="添加时间")
+    is_delete = models.BooleanField(default=False, verbose_name="是否删除")
