@@ -110,3 +110,39 @@ class Goods(models.Model):
 
     add_time = models.DateField(default=datetime.now, verbose_name="添加时间")
     is_delete = models.BooleanField(default=False, verbose_name="是否删除")
+
+
+class GoodsImage(models.Model):
+    """商品轮播图"""
+
+    goods = models.ForeignKey(
+        Goods, verbose_name="", related_name="商品", null=True, on_delete=models.SET_NULL
+    )
+    image = models.ImageField(upload_to="", null=True, blank=True, verbose_name="图片")
+    image_url = models.CharField(
+        max_length=300, null=True, blank=True, verbose_name="图片链接"
+    )
+
+    add_time = models.DateField(default=datetime.now, verbose_name="添加时间")
+    is_delete = models.BooleanField(default=False, verbose_name="是否删除")
+
+    class Meta:
+        verbose_name = "商品轮播图"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.goods.name
+
+    image_url = models.CharField(
+        max_length=300, null=True, blank=True, verbose_name="图片链接"
+    )
+
+    add_time = models.DateField(default=datetime.now, verbose_name="添加时间")
+    is_delete = models.BooleanField(default=False, verbose_name="是否删除")
+
+    class Meta:
+        verbose_name = "商品轮播图"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.goods.name
