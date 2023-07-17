@@ -28,12 +28,12 @@ class UserProfile(AbstractUser):
         max_length=6,
         choices=(("male", "男"), ("female", "女")),
         default="famle",
-        validators="性别",
+        verbose_name="性别",
     )
     mobile = models.CharField(max_length=11, verbose_name="电话")
     email = models.EmailField(max_length=50, null=True, blank=True, verbose_name="邮箱")
 
-    is_delete = models.BooleanField(default=False, validators="是否删除")
+    is_delete = models.BooleanField(default=False, verbose_name="是否删除")
 
     class Meta:
         verbose_name = "用户"
@@ -46,7 +46,7 @@ class UserProfile(AbstractUser):
 
 class VerifyCode(models.Model):
     code = models.CharField(max_length=10, verbose_name="验证码")
-    mobile = models.ForeignKey(max_length=11, verbose_name="电话")
+    mobile = models.CharField(max_length=11, verbose_name="电话")
 
     add_time = models.DateField(default=datetime.now, verbose_name="添加时间")
     is_delete = models.BooleanField(default=False, verbose_name="是否删除")

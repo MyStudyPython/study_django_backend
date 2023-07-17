@@ -23,7 +23,7 @@ class GoodsCategory(models.Model):
         default="", max_length=30, verbose_name="类别名", help_text="类别名"
     )
     code = models.CharField(
-        max_length="", verbose_name=30, verbose_name="类别code", help_text="类别code"
+        default="", max_length=30, verbose_name="类别code", help_text="类别code"
     )
     desc = models.TextField(default="", verbose_name="类别描述", help_text="类别描述")
     category_type = models.IntegerField(
@@ -90,9 +90,9 @@ class Goods(models.Model):
     sold_num = models.IntegerField(default=0, verbose_name="销售量")
     fav_num = models.IntegerField(default=0, verbose_name="收藏量")
     goods_num = models.IntegerField(default=0, verbose_name="库存量")
-    market_price = models.Integer(default=0, verbose_name="市场价格")
-    shop_price = models.IntegerField(default=0, verbose_name="本店价格")
-    goods_brief = models.IntegerField(default=0, verbose_name="商品简介")
+    market_price = models.FloatField(default=0, verbose_name="市场价格")
+    shop_price = models.FloatField(default=0, verbose_name="本店价格")
+    goods_brief = models.TextField(max_length=500, verbose_name="商品简介")
     goods_desc = UEditorField(
         verbose_name="内容",
         imagePath="goods/images/",
@@ -102,8 +102,8 @@ class Goods(models.Model):
         default="",
     )
     ship_free = models.BooleanField(default=True, verbose_name="是否承担运费")
-    goods_font_image = models.ImageField(
-        upload_to="goods/images/", null=True, blank=True
+    goods_front_image = models.ImageField(
+        upload_to="goods/images/", null=True, blank=True, verbose_name="封面图"
     )
     is_new = models.BooleanField(default=False, verbose_name="是否新品")
     is_home = models.BooleanField(default=False, verbose_name="是否热销")
