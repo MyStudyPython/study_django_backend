@@ -4,6 +4,6 @@
   },
   "python.formatting.provider": "none",
   "python.analysis.extraPaths": [
-    "./extra_apps/DjangoEeditor"
+    "./extra_apps/DjangoUeditor"
   ]
 }

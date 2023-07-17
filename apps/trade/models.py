@@ -4,9 +4,7 @@ from django.db import models
 
 # from user.models import UserProfile
 # get_user_model是Django中的一个函数，用于获取当前使用的用户模型。通常情况下，Django的用户模型是django.contrib.auth.models.User，但是可以通过自定义用户模型替换它。
-from django.contrib.auth.models import (
-    get_user_model,
-)
+from django.contrib.auth import get_user_model
 
 from goods.models import Goods
 
