@@ -151,8 +151,74 @@ INSTALLED_APPS = [
       'trade',
       'user_operation',
       'DjangoUeditor',
-      'xadmin',
-      'crispy_forms',
-+     'django.contrib.admin'
++     'xadmin'
 ]
 ```
+
+还需要安装xadmin的依赖包，从https://github.com/sshwsfc/xadmin/blob/master/requirements.txt 可以看到，包括django、django-crispy-forms、django-import-export、django-reversion、django-formtools、future、httplib2和six，可以直接使用一条命令`pip install django django-crispy-forms django-import-export django-reversion django-formtools future httplib2 six`安装即可。
+
+此外，还需要安装xlwt和xlsxwriter，这主要用于操作Excel文件、使功能更完善，直接使用命令`pip install xlwt xlsxwriter`安装即可。
+最后还需要对xadmin进行数据映射，即执行`makemigrations`和`migrate`即可。
+
+如果遇到`ImportError: cannot import name 'six' from 'django.utils'`，可按照下面方法解决：
+
+![](https://img-blog.csdnimg.cn/20200721182109240.gif)
+
+如果遇到以下报错：
+```sh
+forms.Field.__init__(self, required, widget, label, initial, help_text,
+TypeError: __init__() takes 1 positional argument but 6 were given
+```
+可直接在xadmin\views\dashboard.py中将`forms.Field.__init__(self, required, widget, label, initial, help_text, *args, **kwargs)`改为`forms.Field.__init__(self)`即可。
+
+如果遇到其他问题，可参考https://blog.csdn.net/CUFEECR/article/details/104031620进行解决。
+
+进行映射后，在Navicat用`SHOW TABLES;`进行查询数据库：
+```sh
++------------------------------------+                   
+| Tables_in_fresh_ec                 |                   
++------------------------------------+                   
+| auth_group                         |                   
+| auth_group_permissions             |                   
+| auth_permission                    |                   
+| django_content_type                |                   
+| django_migrations                  |                   
+| django_session                     |                   
+| goods_banner                       |                   
+| goods_goods                        |                   
+| goods_goodscategory                |                   
+| goods_goodscategorybrand           |                   
+| goods_goodsimage                   |                   
+| trade_ordergoods                   |                   
+| trade_orderinfo                    |                   
+| trade_shoppingcart                 |                   
+| user_operation_useraddress         |                   
+| user_operation_userfav             |                   
+| user_operation_userleavingmessage  |                   
+| users_userprofile                  |                   
+| users_userprofile_groups           |                   
+| users_userprofile_user_permissions |                   
+| users_verifycode                   |                   
+| xadmin_bookmark                    |                   
+| xadmin_log                         |                   
+| xadmin_usersettings                |                   
+| xadmin_userwidget                  |                   
++------------------------------------+                   
+25 rows in set (0.01 sec)                                
+                                                        
+```
+
+显然，xadmin的数据表已经映射进数据库。
+
+此时，还需要对xadmin配置访问路径，urls.py如下：
+
+```python
+from django.urls import path
+import xadmin
+
+urlpatterns = [
+    path("xadmin/", xadmin.site.urls),
+]
+```
+
+此时还需要创建超级用户，在manage.py@Fresh Ecommerce窗口中执行createsuperuser命令，输入用户名、邮箱和密码后即可创建超级管理员。

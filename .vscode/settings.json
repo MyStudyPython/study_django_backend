@@ -4,6 +4,8 @@
   },
   "python.formatting.provider": "none",
   "python.analysis.extraPaths": [
-    "./extra_apps/DjangoUeditor"
+    "./extra_apps/DjangoUeditor",
+    "./extra_apps/xadmin",
+    "./extra_apps"
   ]
 }
