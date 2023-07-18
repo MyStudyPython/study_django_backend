@@ -155,7 +155,7 @@ INSTALLED_APPS = [
 ]
 ```
 
-## 数据库迁移
+# 数据库迁移
 还需要安装xadmin的依赖包，从https://github.com/sshwsfc/xadmin/blob/master/requirements.txt 可以看到，包括django、django-crispy-forms、django-import-export、django-reversion、django-formtools、future、httplib2和six，可以直接使用一条命令`pip install django django-crispy-forms django-import-export django-reversion django-formtools future httplib2 six`安装即可。
 
 此外，还需要安装xlwt和xlsxwriter，这主要用于操作Excel文件、使功能更完善，直接使用命令`pip install xlwt xlsxwriter`安装即可。
@@ -224,7 +224,7 @@ urlpatterns = [
 ]
 ```
 
-## 创建超级用户
+# 创建超级用户
 此时还需要创建超级用户，在manage.py@Fresh Ecommerce窗口中执行createsuperuser命令，输入用户名、邮箱和密码后即可创建超级管理员。
 ```sh
 python manage.py createsuperuser
@@ -233,3 +233,76 @@ python manage.py createsuperuser
 
 然后访问http://127.0.0.1:8000/xadmin/ 如下：
 ![](https://img-blog.csdnimg.cn/20200721182142503.gif)
+
+## 对settings.py配置
+显然，此时可以（用刚刚创建的用户名和密码）登录后台，但是网页语言还是英文，需要对settings.py进行设置如下：
+```python
+# LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "zh-hans"
+
+# TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Shanghai"
+
+USE_I18N = True
+
+# 用于控制是否启用本地化（Localization）功能
+USE_L10N = True
+
+# USE_TZ = True
+# 用于控制是否启用时区支
+USE_TZ = False
+
+```
+
+## apps/goods/apps.py如下：
+```python
+from django.apps import AppConfig
+
+
+class GoodsConfig(AppConfig):
+    name = 'goods'
+    verbose_name = '商品'
+
+
+```
+
+## apps/trade/apps.py如下：
+```python
+from django.apps import AppConfig
+
+
+class TradeConfig(AppConfig):
+    name = 'trade'
+    verbose_name = '交易管理'
+
+
+```
+
+## apps/user_operation/apps.py如下：
+```python
+from django.apps import AppConfig
+
+
+class UserOperationConfig(AppConfig):
+    name = 'user_operation'
+    verbose_name = '用户操作管理'
+
+
+```
+
+## apps/user/apps.py如下：
+```python
+from django.apps import AppConfig
+
+
+class UsersConfig(AppConfig):
+    name = 'apps.users'
+    verbose_name = '用户管理'
+
+
+```
+
+## 此时再查看网页如下：
+![](https://img-blog.csdnimg.cn/20200721184843685.gif)
+
+显然，此时已经变为中文，并且点击每个导航栏都能看到具体内容，并且可以进行导出数据等多种操作。

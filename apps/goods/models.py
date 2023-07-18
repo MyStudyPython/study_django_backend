@@ -111,6 +111,13 @@ class Goods(models.Model):
     add_time = models.DateField(default=datetime.now, verbose_name="添加时间")
     is_delete = models.BooleanField(default=False, verbose_name="是否删除")
 
+    class Meta:
+        verbose_name = "商品"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name
+
 
 class GoodsImage(models.Model):
     """商品轮播图"""
