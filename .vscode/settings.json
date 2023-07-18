@@ -6,6 +6,7 @@
   "python.analysis.extraPaths": [
     "./extra_apps/DjangoUeditor",
     "./extra_apps/xadmin",
-    "./extra_apps"
+    "./extra_apps",
+    "./apps"
   ]
 }
