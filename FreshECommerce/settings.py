@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "trade.apps.TradeConfig",
     "user_operation.apps.UserOperationConfig",
     "DjangoUeditor",
+    "xadmin",
 ]
 
 
