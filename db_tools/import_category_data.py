@@ -21,6 +21,7 @@ from db_tools.data.category_data import raw_data
 
 for lev1_cat in raw_data:
     lev1_instance = GoodsCategory()
+
     lev1_instance.code = lev1_cat["code"]
     lev1_instance.name = lev1_cat["name"]
     lev1_instance.category_type = 1
@@ -28,6 +29,7 @@ for lev1_cat in raw_data:
 
     for lev2_cat in lev1_cat["sub_categorys"]:
         lev2_instance = GoodsCategory()
+
         lev2_instance.code = lev2_cat["code"]
         lev2_instance.name = lev2_cat["name"]
         lev2_instance.category_type = 2
@@ -36,6 +38,7 @@ for lev1_cat in raw_data:
 
         for lev3_cat in lev2_cat["sub_categorys"]:
             lev3_instance = GoodsCategory()
+
             lev3_instance.code = lev3_cat["code"]
             lev3_instance.name = lev3_cat["name"]
             lev3_instance.category_type = 3

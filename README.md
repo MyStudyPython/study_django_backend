@@ -318,5 +318,3 @@ django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 2: 'if
 把ifequal cl.result_count 1 改成 if cl.result_count == 1
 把endifequal 改成 endif
 ```
-
-## 问题四
