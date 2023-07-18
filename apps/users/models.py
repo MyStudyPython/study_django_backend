@@ -23,7 +23,7 @@ class UserProfile(AbstractUser):
     """
 
     name = models.CharField(max_length=30, null=True, blank=True, verbose_name="姓名")
-    birthday = models.DateField(null=True, blank=True, verbose_name="出生日期")
+    birthday = models.DateTimeField(null=True, blank=True, verbose_name="出生日期")
     gender = models.CharField(
         max_length=6,
         choices=(("male", "男"), ("female", "女")),
@@ -48,7 +48,7 @@ class VerifyCode(models.Model):
     code = models.CharField(max_length=10, verbose_name="验证码")
     mobile = models.CharField(max_length=11, verbose_name="电话")
 
-    add_time = models.DateField(default=datetime.now, verbose_name="添加时间")
+    add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
     is_delete = models.BooleanField(default=False, verbose_name="是否删除")
 
     class Meta:

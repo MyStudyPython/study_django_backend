@@ -14,7 +14,8 @@ class QuickFormPlugin(BaseAdminPlugin):
     def init_request(self, *args, **kwargs):
         if (
             self.request.method == "GET"
-            and self.request.is_ajax()
+            # and self.request.is_ajax()
+            and self.request.headers.get("x-requested-with") == "XMLHttpRequest"
             or self.request.GET.get("_ajax")
         ):
             self.admin_view.add_form_template = "xadmin/views/quick_form.html"

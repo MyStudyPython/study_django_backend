@@ -6,7 +6,7 @@ class ShoppingCartAdmin(object):
     list_display = [
         "user",
         "goods",
-        "nums",
+        "goods_num",
     ]
 
 
@@ -16,7 +16,7 @@ class OrderInfoAdmin(object):
         "order_sn",
         "trade_no",
         "pay_status",
-        "post_script",
+        "pay_script",
         "order_mount",
         "order_mount",
         "pay_time",

@@ -170,11 +170,11 @@ class ChartsView(ListAdminView):
             xfield = self.opts.get_field(self.x_field)
             if type(xfield) in (
                 models.DateTimeField,
-                models.DateField,
+                models.DateTimeField,
                 models.TimeField,
             ):
                 option["xaxis"] = {"mode": "time", "tickLength": 5}
-                if type(xfield) is models.DateField:
+                if type(xfield) is models.DateTimeField:
                     option["xaxis"]["timeformat"] = "%y/%m/%d"
                 elif type(xfield) is models.TimeField:
                     option["xaxis"]["timeformat"] = "%H:%M:%S"

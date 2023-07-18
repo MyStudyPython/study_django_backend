@@ -263,7 +263,7 @@ class NumberFieldListFilter(FieldFilter):
 
 
 @manager.register
-class DateFieldListFilter(ListFieldFilter):
+class DateTimeFieldListFilter(ListFieldFilter):
     template = "xadmin/filters/date.html"
     lookup_formats = {
         "since": "%s__gte",
@@ -276,7 +276,7 @@ class DateFieldListFilter(ListFieldFilter):
 
     @classmethod
     def test(cls, field, request, params, model, admin_view, field_path):
-        return isinstance(field, models.DateField)
+        return isinstance(field, models.DateTimeField)
 
     def __init__(self, field, request, params, model, admin_view, field_path):
         self.field_generic = "%s__" % field_path
@@ -288,7 +288,7 @@ class DateFieldListFilter(ListFieldFilter):
             ]
         )
 
-        super(DateFieldListFilter, self).__init__(
+        super(DateTimeFieldListFilter, self).__init__(
             field, request, params, model, admin_view, field_path
         )
 
@@ -304,7 +304,7 @@ class DateFieldListFilter(ListFieldFilter):
 
         if isinstance(field, models.DateTimeField):
             today = now.replace(hour=0, minute=0, second=0, microsecond=0)
-        else:  # field is a models.DateField
+        else:  # field is a models.DateTimeField
             today = now.date()
         tomorrow = today + datetime.timedelta(days=1)
 
@@ -343,7 +343,7 @@ class DateFieldListFilter(ListFieldFilter):
         )
 
     def get_context(self):
-        context = super(DateFieldListFilter, self).get_context()
+        context = super(DateTimeFieldListFilter, self).get_context()
         context["choice_selected"] = (
             bool(self.lookup_year_val)
             or bool(self.lookup_month_val)

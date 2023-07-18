@@ -25,7 +25,7 @@ from xadmin.filters import (
     manager as filter_manager,
     FILTER_PREFIX,
     SEARCH_VAR,
-    DateFieldListFilter,
+    DateTimeFieldListFilter,
     RelatedFieldSearchFilter,
 )
 from xadmin.sites import site
@@ -236,7 +236,9 @@ class FilterPlugin(BaseAdminPlugin):
 
     # Media
     def get_media(self, media):
-        arr = filter(lambda s: isinstance(s, DateFieldListFilter), self.filter_specs)
+        arr = filter(
+            lambda s: isinstance(s, DateTimeFieldListFilter), self.filter_specs
+        )
         if six.PY3:
             arr = list(arr)
         if bool(arr):

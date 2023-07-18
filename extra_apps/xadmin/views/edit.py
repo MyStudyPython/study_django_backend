@@ -38,7 +38,7 @@ FORMFIELD_FOR_DBFIELD_DEFAULTS = {
         "form_class": forms.SplitDateTimeField,
         "widget": widgets.AdminSplitDateTime,
     },
-    models.DateField: {"widget": widgets.AdminDateWidget},
+    models.DateTimeField: {"widget": widgets.AdminDateWidget},
     models.TimeField: {"widget": widgets.AdminTimeWidget},
     models.TextField: {"widget": widgets.AdminTextareaWidget},
     models.URLField: {"widget": widgets.AdminURLFieldWidget},

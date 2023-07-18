@@ -243,3 +243,80 @@ django.template.exceptions.TemplateDoesNotExist: bootstrap3/errors.html
 把`form.html`页面的第19行注释掉
 
 ![](https://img-blog.csdnimg.cn/8de52effaa564226899a18211da69b3a.png)
+
+
+# 点击菜单 记录报错
+## 问题一 
+```sh
+AttributeError: 'WSGIRequest' object has no attribute 'is_ajax'
+```
+### 解决方式
+这个[Django 3.1的release note](https://docs.djangoproject.com/en/3.1/releases/3.1/#id2)有提到
+
+>The HttpRequest.is_ajax() method is deprecated as it relied on a jQuery-specific way of signifying AJAX calls, while current usage tends to use the JavaScript Fetch API. Depending on your use case, you can either write your own AJAX detection method, or use the new HttpRequest.accepts() method if your code depends on the client Accept HTTP header.
+If you are writing your own AJAX detection method, request.is_ajax() can be reproduced exactly as request.headers.get(‘x-requested-with’) == ‘XMLHttpRequest’.
+
+可以像这样用，创建一个自定义函数，进行检查：
+```python
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
+```
+
+网上的例子：
+```python
+from django.shortcuts import HttpResponse
+
+
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
+
+def ajax_test(request):
+    if is_ajax(request=request):
+        message = "This is ajax"
+    else:
+        message = "Not ajax"
+    return HttpResponse(message)
+
+```
+
+解决方法：
+```python
+        # return bool(self.request.is_ajax() or self.request.GET.get('_ajax'))
+        return bool(self.request.headers.get('x-requested-with') == 'XMLHttpRequest' or self.request.GET.get('_ajax'))
+```
+
+## 问题二
+```sh
+AttributeError: module 'django.db.models' has no attribute 'FieldDoesNotExist'
+```
+
+### 解决方式
+```python
+最上面导包的代码
+from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
+改成
+from django.core.exceptions import PermissionDenied, ObjectDoesNotExist, FieldDoesNotExist
+
+```
+
+```python
+报错的那个位置改成
+# except models.FieldDoesNotExist:
+ except FieldDoesNotExist:
+
+```
+
+## 问题三
+```sh
+django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 2: 'ifequal'. Did you forget to register or load this tag?
+```
+### 解决方式
+找到报错的模板文件，我报错的是项目根路径/venv/Lib/site-packages/xadmin/templates/xadmin/includes/pagination.html
+```python
+把ifequal cl.result_count 1 改成 if cl.result_count == 1
+把endifequal 改成 endif
+```
+
+## 问题四

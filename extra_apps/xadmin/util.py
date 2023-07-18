@@ -357,7 +357,7 @@ def display_for_field(value, field):
         return EMPTY_CHANGELIST_VALUE
     elif isinstance(field, models.DateTimeField):
         return formats.localize(tz_localtime(value))
-    elif isinstance(field, (models.DateField, models.TimeField)):
+    elif isinstance(field, (models.DateTimeField, models.TimeField)):
         return formats.localize(value)
     elif isinstance(field, models.DecimalField):
         return formats.number_format(value, field.decimal_places)

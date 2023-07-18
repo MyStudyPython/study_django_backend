@@ -16,7 +16,11 @@ NON_FIELD_ERRORS = "__all__"
 
 class BaseAjaxPlugin(BaseAdminPlugin):
     def init_request(self, *args, **kwargs):
-        return bool(self.request.is_ajax() or self.request.GET.get("_ajax"))
+        # return bool(self.request.is_ajax() or self.request.GET.get('_ajax'))
+        return bool(
+            self.request.headers.get("x-requested-with") == "XMLHttpRequest"
+            or self.request.GET.get("_ajax")
+        )
 
 
 class AjaxListPlugin(BaseAjaxPlugin):
