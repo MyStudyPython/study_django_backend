@@ -14,8 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
+from django.views.static import serve
 import xadmin
+from FreshECommerce.settings import MEDIA_ROOT
 
 urlpatterns = [
     path("xadmin/", xadmin.site.urls),
+    # url(r'^media/(?P<path>.*)$', serve, {'document_root':MEDIA_ROOT}),
+    path("media/<path:path>", serve, {"document_root": MEDIA_ROOT}),
 ]
