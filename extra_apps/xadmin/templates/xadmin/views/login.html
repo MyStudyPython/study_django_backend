@@ -43,7 +43,7 @@
 
       {% view_block 'form_top' %}
       
-      {% include 'bootstrap3/errors.html' %}
+      {% comment %} {% include 'bootstrap3/errors.html' %} {% endcomment %}
 
       <div id="div_id_username" class="row{% if form.username.errors %} has-error{% endif %}">
         <div class="controls clearfix">

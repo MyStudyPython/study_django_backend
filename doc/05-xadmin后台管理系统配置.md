@@ -155,6 +155,7 @@ INSTALLED_APPS = [
 ]
 ```
 
+## 数据库迁移
 还需要安装xadmin的依赖包，从https://github.com/sshwsfc/xadmin/blob/master/requirements.txt 可以看到，包括django、django-crispy-forms、django-import-export、django-reversion、django-formtools、future、httplib2和six，可以直接使用一条命令`pip install django django-crispy-forms django-import-export django-reversion django-formtools future httplib2 six`安装即可。
 
 此外，还需要安装xlwt和xlsxwriter，这主要用于操作Excel文件、使功能更完善，直接使用命令`pip install xlwt xlsxwriter`安装即可。
@@ -212,13 +213,23 @@ TypeError: __init__() takes 1 positional argument but 6 were given
 
 此时，还需要对xadmin配置访问路径，urls.py如下：
 
-```python
-from django.urls import path
-import xadmin
+```diff
+- from django.contrib import admin
++ from django.urls import path
++ import xadmin
 
 urlpatterns = [
-    path("xadmin/", xadmin.site.urls),
+-    path('admin/', admin.site.urls),
++    path("xadmin/", xadmin.site.urls),
 ]
 ```
 
+## 创建超级用户
 此时还需要创建超级用户，在manage.py@Fresh Ecommerce窗口中执行createsuperuser命令，输入用户名、邮箱和密码后即可创建超级管理员。
+```sh
+python manage.py createsuperuser
+```
+![](https://img-blog.csdnimg.cn/img_convert/acf15e5baa9b51ccf8284a3c70005e65.png)
+
+然后访问http://127.0.0.1:8000/xadmin/ 如下：
+![](https://img-blog.csdnimg.cn/20200721182142503.gif)

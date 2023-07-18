@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "user_operation.apps.UserOperationConfig",
     "DjangoUeditor",
     "xadmin",
+    "crispy_forms",
 ]
 
 
