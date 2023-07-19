@@ -22,6 +22,7 @@ import xadmin
 from FreshECommerce.settings import MEDIA_ROOT
 
 from goods.views_base import GoodsListView
+from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
     # path("xadmin/", xadmin.site.urls),
@@ -34,4 +35,6 @@ urlpatterns = [
     path("media/<path:path>", serve, {"document_root": MEDIA_ROOT}),
     # 商品列表页api
     path("goods/", GoodsListView.as_view(), name="goods-list"),
+    # 文档路由
+    path("docs/", include_docs_urls(title="生鲜电商")),
 ]
