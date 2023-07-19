@@ -13,15 +13,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path
+from django.urls import path, include
 from django.views.static import serve
 from django.views.generic import RedirectView
 
 import xadmin
 
-from FreshECommerce.settings import MEDIA_ROOT
+from .settings import MEDIA_ROOT
 
-from goods.views_base import GoodsListView
+# from goods.views_base import GoodsListView
+from goods.views import GoodsListView
 from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
@@ -33,6 +34,7 @@ urlpatterns = [
     path("xadmin/", xadmin.site.urls),
     # url(r'^media/(?P<path>.*)$', serve, {'document_root':MEDIA_ROOT}),
     path("media/<path:path>", serve, {"document_root": MEDIA_ROOT}),
+    path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
     # 商品列表页api
     path("goods/", GoodsListView.as_view(), name="goods-list"),
     # 文档路由

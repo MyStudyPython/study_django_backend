@@ -100,6 +100,7 @@ from rest_framework.documentation import include_docs_urls
 
 import xadmin
 from .settings import MEDIA_ROOT
+# from goods.views_base import GoodsListView
 from goods.views import GoodsListView
 
 urlpatterns = [
@@ -115,3 +116,13 @@ urlpatterns = [
 ]
 
 ```
+
+此时再访问http://127.0.0.1:8000/goods/，显示：
+
+![](https://img-blog.csdnimg.cn/20200725154650449.gif)
+
+显然，此时还是显示出了数据，并且经过restful_framework优化，不是单纯地显示json数据，而且可以通过json和API两种方式查看，还能查看OPTIONS数据。
+
+如果报错`__str__ returned non-string (type NoneType)` ，可以通过退出登录后台管理或者修改自定义的用户模型的`__str__()`方法解决，具体可参考
+
+https://blog.csdn.net/CUFEECR/article/details/107469168。

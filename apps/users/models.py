@@ -41,7 +41,9 @@ class UserProfile(AbstractUser):
         verbose_name_plural = "用户"
 
     def __str__(self):
-        return self.name
+        # return self.name
+        # TypeError: __str__ returned non-string (type NoneType)
+        return self.username
 
 
 class VerifyCode(models.Model):

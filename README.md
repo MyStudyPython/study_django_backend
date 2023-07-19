@@ -318,3 +318,89 @@ django.template.exceptions.TemplateSyntaxError: Invalid block tag on line 2: 'if
 把ifequal cl.result_count 1 改成 if cl.result_count == 1
 把endifequal 改成 endif
 ```
+
+
+# `datetime` 用 `json.dumps()`方法序列化 记录报错
+## 问题一
+```sh
+raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type date is not JSON serializable
+```
+### 解决方式
+使用Django自带的`model_to_dict()`方法可以实现直接将模型数据转化为字典形式，但是对于DateTimeField、ImageField等字段时还是无法序列化，因此需要使用**serializer**进行序列化，views_base.py如下：
+
+```python
+import json
+
+from django.views.generic.base import View
+from django.http import HttpResponse, JsonResponse
+from django.forms.models import model_to_dict
+from django.core import serializers
+
+from goods.models import Goods
+
+
+class MyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, bytes):
+            return str(obj, encoding='utf-8')
+
+        return json.JSONEncoder.default(self, obj)
+
+
+class GoodsListView(View):
+    def get(self, request):
+        '''通过serializers实现商品列表页'''
+        goods = Goods.objects.all()[:10]
+        json_data = serializers.serialize('json', goods)
+        return HttpResponse(json_data, content_type='application/json')
+
+```
+
+# Django配置Restful framework 记录报错
+## 问题一
+```sh
+TypeError: __str__ returned non-string (type NoneType)
+```
+在Django项目中配置Restful framework时，报错`__str__ returned non-string (type NoneType)`，如下
+![](https://img-blog.csdnimg.cn/20200724150854328.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NVRkVFQ1I=,size_16,color_FFFFFF,t_70)
+
+这可能是自定义用户模型代替Django自带的用户模型时，允许name（或相似的）字段允许为空，例如name = models.CharField(max_length=30, null=True, blank=True, verbose_name='姓名')所以会返回non-string报错，完整模型如下：
+```python
+class UserProfile(AbstractUser):
+    '''用户'''
+    name = models.CharField(max_length=30, null=True, blank=True, verbose_name='姓名')
+    birthday = models.DateField(null=True, blank=True, verbose_name='出生日期')
+    gender = models.CharField(max_length=6, choices=(('male', u'男'), ('female', u'女')), default='female',
+                              verbose_name='性别')
+    mobile = models.CharField(max_length=11, verbose_name='电话')
+    email = models.CharField(max_length=50, null=True, blank=True, verbose_name='邮箱')
+
+    is_delete = models.BooleanField(default=False, verbose_name='是否删除')
+
+    class Meta:
+        verbose_name = '用户'
+        verbose_name_plural = '用户'
+
+    def __str__(self):
+        return self.name
+
+```
+
+### 解决方式
+解决办法有2种：
+
+1. 退出admin或xadmin后台登录
+   
+   退出后台管理登录，操作如下:
+
+   ![](https://img-blog.csdnimg.cn/20200724151546458.gif)
+
+2. 修改用户模型`__str__()`方法
+   因为自定义用户如UserProfile继承自AbstractUser，而AbstractUser模型有username属性，不允许为空，所以可以设置为返回self.username，即如下：
+
+   ```python
+   def __str__(self):
+    return self.username
+   ```
+   此时不登出后台管理也可以正常访问。
