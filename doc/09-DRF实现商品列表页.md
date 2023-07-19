@@ -195,3 +195,21 @@ class GoodsSerializer(serializers.ModelSerializer):
         fields = ['category', 'name', 'sold_num', 'shop_price', 'goods_brief', 'goods_front_image', 'is_hot']
 
 ```
+
+由ModelSerializer自动完成与模型中相应字段的映射，显然，简洁很多，此时再访问http://127.0.0.1:8000/goods/如下：
+
+![](https://img-blog.csdnimg.cn/20200725154928222.gif)
+
+显然，此时将指定字段返回前端，还可以指定`fields = '__all__'`来序列化所有字段，如下：
+```python
+from rest_framework import serializers
+
+from .models import Goods
+
+
+class GoodsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Goods
+        fields = '__all__'
+
+```
