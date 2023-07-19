@@ -126,3 +126,72 @@ urlpatterns = [
 如果报错`__str__ returned non-string (type NoneType)` ，可以通过退出登录后台管理或者修改自定义的用户模型的`__str__()`方法解决，具体可参考
 
 https://blog.csdn.net/CUFEECR/article/details/107469168。
+
+# 2.使用modelserializer实现商品序列化
+从前面的基本使用中可以看到，**serializer类似于Django自带的Form，可以对表单进行验证**，但是serializer还拥有更多的功能，这里尝试通过**serializer将数据保存到数据库中**。
+
+在`serializers.py`中实现用于保存数据的`create()`方法如下：
+
+```python
+from rest_framework import serializers
+
+from .models import Goods
+
+
+class GoodsSerializer(serializers.Serializer):
+    name = serializers.CharField(required=True, max_length=300)
+    click_num = serializers.IntegerField(default=0)
+    goods_front_image = serializers.ImageField()
+
+    def create(self, validated_data):
+        '''接受前端的数据并保存'''
+        return Goods.objects.create(**validated_data)
+```
+
+views.py中实现用于提交数据的post方法如下：
+
+```python
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+from .models import Goods
+from .serializers import GoodsSerializer
+
+
+# Create your views here.
+
+class GoodsListView(APIView):
+    '''商品序列化'''
+
+    def get(self, request, format=None):
+        goods = Goods.objects.all()[:10]
+        goods_serializer = GoodsSerializer(goods, many=True)
+        return Response(goods_serializer.data)
+
+    def post(self, request, format=None):
+        serializer = GoodsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+```
+
+当然，添加商品数据一般是后台管理员的操作，前台用户是没有这个权限的。
+
+Django中有Form，也有ModelForm，DRF中也有ModelSerializer，相比于Serializer，它省去了模型所有字段的添加和处理数据方法的实现，serializers.py简化如下：
+
+```python
+from rest_framework import serializers
+
+from .models import Goods
+
+
+class GoodsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Goods
+        fields = ['category', 'name', 'sold_num', 'shop_price', 'goods_brief', 'goods_front_image', 'is_hot']
+
+```
