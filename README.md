@@ -428,3 +428,26 @@ A[Goods存储的是日期\n即年月日形式,\n而GoodsCategory存储的是时�
 
 
 
+
+## 警告一
+```sh
+norderedObjectListWarning: Pagination may yield inconsistent results with an unordered object_list: <class 'goods.models.Goods'> QuerySet.
+```
+django启动之后，只要访问页面总是有这样的警告提示：
+
+UnorderedObjectListWarning: Pagination may yield inconsistent results with an unordered object_list
+
+翻译过来：
+
+无序对象列表警告：分页可能会产生与无序对象列表不一致的结果
+
+产生上面警告的原因是：使用了djangorestframe，展示结果为排序造成的
+
+只要我们在视图或者模型上加上排序就可以消除警告
+
+### 解决方法
+在view下面加入排序
+```diff
+-    queryset = Goods.objects.all()
++    queryset = Goods.objects.all().order_by("goods_sn")
+```

@@ -49,6 +49,6 @@ class GoodsPagination(PageNumberPagination):
 class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     """商品列表页"""
 
-    queryset = Goods.objects.all()
+    queryset = Goods.objects.all().order_by("goods_sn")
     serializer_class = GoodsSerializer
     pagination_class = GoodsPagination

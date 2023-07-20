@@ -15,7 +15,12 @@ Including another URLconf
 """
 from django.urls import path, include
 from django.views.static import serve
+
+# 重定向
 from django.views.generic import RedirectView
+
+# 导入路由
+from rest_framework.routers import DefaultRouter
 
 import xadmin
 
@@ -26,11 +31,10 @@ from .settings import MEDIA_ROOT
 from goods.views import GoodsListViewSet
 from rest_framework.documentation import include_docs_urls
 
-goods_list = GoodsListViewSet.as_view(
-    {
-        "get": "list",
-    }
-)
+router = DefaultRouter()
+
+# 配置goods的路由
+router.register("goods", GoodsListViewSet)
 
 urlpatterns = [
     # path("xadmin/", xadmin.site.urls),
@@ -39,11 +43,11 @@ urlpatterns = [
     # 这是直接指向了/xadmin
     path("", RedirectView.as_view(url="/xadmin/")),
     path("xadmin/", xadmin.site.urls),
-    # url(r'^media/(?P<path>.*)$', serve, {'document_root':MEDIA_ROOT}),
     path("media/<path:path>", serve, {"document_root": MEDIA_ROOT}),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
     # 商品列表页api
-    path("goods/", goods_list, name="goods-list"),
+    # path("goods/", goods_list, name="goods-list"),
+    path("", include(router.urls)),
     # 文档路由
     path("docs/", include_docs_urls(title="生鲜电商")),
 ]
