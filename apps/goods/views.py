@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import mixins, viewsets
 
 # from rest_framework.views import APIView
 # from rest_framework.response import Response
@@ -35,12 +35,20 @@ class GoodsPagination(PageNumberPagination):
 
 
 # class GoodsListView(mixins.ListModelMixin, generics.GenericAPIView):
-class GoodsListView(generics.ListAPIView):
+# class GoodsListView(generics.ListAPIView):
+#     """商品列表页"""
+
+#     queryset = Goods.objects.all()
+#     serializer_class = GoodsSerializer
+#     pagination_class = GoodsPagination
+
+#     # def get(self, request, *args, **kwargs):
+#     #     return self.list(request, *args, **kwargs)
+
+
+class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     """商品列表页"""
 
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer
     pagination_class = GoodsPagination
-
-    # def get(self, request, *args, **kwargs):
-    #     return self.list(request, *args, **kwargs)
