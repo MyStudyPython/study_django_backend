@@ -213,3 +213,35 @@ class GoodsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 ```
+再次访问，显示：
+
+![](https://img-blog.csdnimg.cn/20200725154947133.gif)
+
+显然，序列化了所有字段，并且没有出错。
+此时对于商品信息，category显示的时对应GoodsCategory模型的主键，当然还可以显示Category的具体信息，此时需要使用嵌套序列化，如下：
+
+```python
+from rest_framework import serializers
+
+from .models import Goods, GoodsCategory
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GoodsCategory
+        fields = '__all__'
+
+
+class GoodsSerializer(serializers.ModelSerializer):
+    category = CategorySerializer()
+    class Meta:
+        model = Goods
+        fields = '__all__'
+
+```
+
+即用自定义字段覆盖原有的category字段，显示如下：
+
+![](https://img-blog.csdnimg.cn/20200725154947133.gif)
+
+此时已经显示出category的具体信息。

@@ -409,4 +409,22 @@ class UserProfile(AbstractUser):
 ```sh
 AttributeError: 'datetime.date' object has no attribute 'utcoffset'
 ```
-时间没有序列化
+我查看了数据库
+
+![](https://i.postimg.cc/DfSJ4Zm2/20230720103015.png)
+
+![](https://i.postimg.cc/c6qNrTC8/20230720103040.png)
+
+明显看出
+
+```mermaid
+graph TD
+A[Goods存储的是日期\n即年月日形式,\n而GoodsCategory存储的是时间\n即年月日时间] -->B(`class Goods`里的 时间字段\n `models.DateTimeField` 换成 `models.DateField`就对了)
+    B --> C(run `makemigrations` and `migrate` 并没有效果)
+    C --> D(run `python manage.py flush` \n 清空所有数据库数据)
+    D -->E[重新生成`Category`数据 \n创建超级用户`createsuperuser`]
+    G[模型存储字段类型都是\n`models.DateTimeField`]
+```
+
+
+
