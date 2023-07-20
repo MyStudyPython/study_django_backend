@@ -130,7 +130,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
 # LANGUAGE_CODE = "en-us"
-LANGUAGE_CODE = "zh-hans"
+LANGUAGE_CODE = "zh-hans"  # 中文支持
 
 # TIME_ZONE = "UTC"
 TIME_ZONE = "Asia/Shanghai"
@@ -148,8 +148,10 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+# 静态资源设置
 STATIC_URL = "static/"
 
+# 媒体资源设置
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 

@@ -370,7 +370,7 @@ TypeError: __str__ returned non-string (type NoneType)
 class UserProfile(AbstractUser):
     '''用户'''
     name = models.CharField(max_length=30, null=True, blank=True, verbose_name='姓名')
-    birthday = models.DateField(null=True, blank=True, verbose_name='出生日期')
+    birthday = models.DateTimeField(null=True, blank=True, verbose_name='出生日期')
     gender = models.CharField(max_length=6, choices=(('male', u'男'), ('female', u'女')), default='female',
                               verbose_name='性别')
     mobile = models.CharField(max_length=11, verbose_name='电话')
@@ -404,3 +404,9 @@ class UserProfile(AbstractUser):
     return self.username
    ```
    此时不登出后台管理也可以正常访问。
+
+## 问题二
+```sh
+AttributeError: 'datetime.date' object has no attribute 'utcoffset'
+```
+时间没有序列化
