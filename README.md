@@ -429,6 +429,30 @@ A[Goods存储的是日期\n即年月日形式,\n而GoodsCategory存储的是时�
 
 
 
+## 问题三
+```sh
+AssertionError: `basename` argument not specified, and could not automatically determine the name from the viewset, as it does not have a `.queryset` attribute.
+```
+这个问题是在重写分页的方法之后，在进行URL注册时所报的错。
+
+在views中去掉了queryset属性，改用get_queryset()方法，此时basename这个值必须补充！！
+![](https://img-blog.csdnimg.cn/cb369f15c0a54bfdbc8627e343081bc8.jpeg)
+
+### 解决方式
+#### 解决方式一
+router注册URL时，补充basename即可。
+![](https://img-blog.csdnimg.cn/f01081ffa67c4b29905c10071b82e8bb.jpeg)
+
+#### 解决方式二
+在重写get_queryset前设置好queryset的默认值
+
+```python
+queryset = DeptModel.objects.all()
+serializer_class = DeptSerializer
+pagination_class = GlobalPagination
+```
+
+
 ## 警告一
 ```sh
 norderedObjectListWarning: Pagination may yield inconsistent results with an unordered object_list: <class 'goods.models.Goods'> QuerySet.

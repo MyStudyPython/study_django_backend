@@ -49,6 +49,14 @@ class GoodsPagination(PageNumberPagination):
 class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     """商品列表页"""
 
-    queryset = Goods.objects.all().order_by("goods_sn")
+    # queryset = Goods.objects.all().order_by("goods_sn")
     serializer_class = GoodsSerializer
     pagination_class = GoodsPagination
+
+    def get_queryset(self):
+        queryset = Goods.objects.all().order_by("goods_sn")
+        price_min = self.request.query_params.get("price_min", default=0)
+        if price_min:
+            queryset = queryset.filter(shop_price__gt=int(price_min))
+
+        return queryset
