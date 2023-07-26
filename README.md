@@ -1,6 +1,11 @@
 # study_django_backend
 学习Django后端接口
 
+> 使用Django和Vue开发一个生鲜电商平台，采用前后端分离技术实现。
+
+# 安装环境依赖
+在克隆或下载项目后，在项目目录下执行`pip install -r requirements.txt`命令安装项目所需库。
+
 # Django xadmin数据迁移 记录报错
 ## 问题一
 ```sh
@@ -425,6 +430,10 @@ A[Goods存储的是日期\n即年月日形式,\n而GoodsCategory存储的是时�
     D -->E[重新生成`Category`数据 \n创建超级用户`createsuperuser`]
     G[模型存储字段类型都是\n`models.DateTimeField`]
 ```
+### 解决方式
+> 1. 清空数据库
+> 2. 手动更改`good_goods`数据库时间字段，把`date`类型改成`timedate`类型
+> 3. 重新生成数据和添加管理员账号
 
 
 
@@ -450,6 +459,26 @@ router注册URL时，补充basename即可。
 queryset = DeptModel.objects.all()
 serializer_class = DeptSerializer
 pagination_class = GlobalPagination
+```
+
+## 问题四
+```sh
+django.template.exceptions.TemplateDoesNotExist: django_filters/rest_framework/crispy_form.html
+```
+### 解决方式
+安装应用 `django_filters` 到 settings.py  的 `INSTALLED_APPS`.
+```python
+INSTALLED_APPS = [
+    ...
+    "django_filters",
+]
+```
+**注意:`django_filters` 和 `django-filter` 实际上是同一个包的不同名称。`django_filters`是过去版本的包名称，而`django-filter`是当前版本的包名称。**
+即 `pip install django-filter` 即可。
+
+## 问题五
+```sh
+django.template.exceptions.TemplateDoesNotExist: bootstrap3/field.html
 ```
 
 
