@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     "crispy_forms",
     # DRF配置
     "rest_framework",
+    # 自动生成API文档
+    "drf_yasg",
     # 精确搜索
     "django_filters",
 ]

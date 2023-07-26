@@ -29,7 +29,23 @@ from .settings import MEDIA_ROOT
 # from goods.views_base import GoodsListView
 # from goods.views import GoodsListView
 from goods.views import GoodsListViewSet
-from rest_framework.documentation import include_docs_urls
+
+# from rest_framework.documentation import include_docs_urls
+
+# ===================== 自动生成API文档=========================
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="生鲜电商",  # 必传
+        default_version="v1",  # 必传
+        description="这是一个接口文档",
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    # permission_classes=(permissions.AllowAny,),   # 权限类
+)
 
 router = DefaultRouter()
 
@@ -40,14 +56,25 @@ urlpatterns = [
     # path("xadmin/", xadmin.site.urls),
     # 这是直接把 /xadmin 设置为主页，但是没有指向
     # path("", xadmin.site.urls),
-    # 这是直接指向了/xadmin
-    path("", RedirectView.as_view(url="/xadmin/")),
+    # 这是直接指向了/docs
+    # path("", RedirectView.as_view(url="/docs/")),
+    # path("docs/", include_docs_urls(title="生鲜电商")),
+    # ===================== 自动生成API文档=========================
+    path("", RedirectView.as_view(url="/swagger/")),
+    path(
+        "swagger/",
+        schema_view.with_ui("swagger", cache_timeout=0),
+        name="schema-swagger-ui",
+    ),
+    path(
+        "redoc/",
+        schema_view.with_ui("redoc", cache_timeout=0),
+        name="schema-redoc",
+    ),
     path("xadmin/", xadmin.site.urls),
     path("media/<path:path>", serve, {"document_root": MEDIA_ROOT}),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
     # 商品列表页api
     # path("goods/", goods_list, name="goods-list"),
     path("", include(router.urls)),
-    # 文档路由
-    path("docs/", include_docs_urls(title="生鲜电商")),
 ]
