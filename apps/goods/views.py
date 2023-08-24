@@ -3,6 +3,7 @@ from rest_framework import mixins, viewsets
 # from rest_framework.views import APIView
 # from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
+from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Goods
 from .serializers import GoodsSerializer
@@ -60,3 +61,7 @@ class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
             queryset = queryset.filter(shop_price__gt=int(price_min))
 
         return queryset
+
+    # 通过django-filters的**DjangoFilterBackend**类实现字段过滤。
+    # filter_backends = [DjangoFilterBackend]
+    # filterset_fields = ["name", "market_price"]

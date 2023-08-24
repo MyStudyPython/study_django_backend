@@ -61,11 +61,13 @@ urlpatterns = [
     # path("docs/", include_docs_urls(title="生鲜电商")),
     # ===================== 自动生成API文档=========================
     path("", RedirectView.as_view(url="/swagger/")),
+    # 对测试人员更友好
     path(
         "swagger/",
         schema_view.with_ui("swagger", cache_timeout=0),
         name="schema-swagger-ui",
     ),
+    # 对开发人员更友好
     path(
         "redoc/",
         schema_view.with_ui("redoc", cache_timeout=0),

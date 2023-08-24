@@ -1,4 +1,4 @@
-# study_separate_django_project
+# study_django_backend
 学习Django后端接口
 
 > 使用Django和Vue开发一个生鲜电商平台，采用前后端分离技术实现。
@@ -503,4 +503,42 @@ UnorderedObjectListWarning: Pagination may yield inconsistent results with an un
 ```diff
 -    queryset = Goods.objects.all()
 +    queryset = Goods.objects.all().order_by("goods_sn")
+```
+
+
+# 补充 Django REST framework 知识点 记录报错
+## 问题一
+```sh
+AttributeError: 'AutoSchema' object has no attribute 'get_link'
+```
+### 解决方式
+问题一和和二解决：
+
+因为新版的`restframework`需要指定默认`schema``
+
+所以需要在`settings.py`中添加如下代码
+
+```python
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
+}
+```
+
+或者配置(**推荐使用**)
+```python
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.AutoSchema'
+}
+```
+
+或者配置如下：
+```python
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.inspectors.AutoSchema'
+}
+```
+
+## 问题二
+```sh
+ImportError: Could not import 'rest_framework.schemas.coreapi.AutoSchema' for API setting 'DEFAULT_SCHEMA_CLASS'. ModuleNotFoundError: No module named 'rest_framework.schemas.coreapi'
 ```
