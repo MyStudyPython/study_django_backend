@@ -1,4 +1,4 @@
-# study_django_backend
+# study_separate_django_project
 学习Django后端接口
 
 > 使用Django和Vue开发一个生鲜电商平台，采用前后端分离技术实现。
