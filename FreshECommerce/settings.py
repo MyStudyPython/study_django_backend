@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "DjangoUeditor",
     "xadmin",
     "crispy_forms",
+    'crispy_bootstrap3', # 安装crispy-bootstrap3第三方依赖包
     # DRF配置
     "rest_framework",
     # 自动生成API文档

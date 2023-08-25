@@ -480,6 +480,26 @@ INSTALLED_APPS = [
 ```sh
 django.template.exceptions.TemplateDoesNotExist: bootstrap3/field.html
 ```
+### 解决方式
+在django中引入xadmin后出现数十个报错信息，一步一步解决了大部分，但本文题目中标注的问题无法解决。后来在StackOverFlow找到解决方案
+
+安装crispy-bootstrap3第三方依赖包
+```sh
+pip install crispy-bootstrap3
+```
+
+配置setting.py文件
+```python
+INSTALLED_APPS = [
+...
+    'crispy_forms',
+    'crispy_bootstrap3',
+...
+]
+...
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+```
+
 
 
 ## 警告一
