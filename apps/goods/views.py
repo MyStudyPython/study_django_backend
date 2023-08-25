@@ -7,6 +7,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Goods
 from .serializers import GoodsSerializer
+from .filters import GoodsFilter # 导入自定义模糊匹配过滤器
 
 # Create your views here.
 
@@ -47,25 +48,35 @@ class GoodsPagination(PageNumberPagination):
 #     #     return self.list(request, *args, **kwargs)
 
 
+# class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+#     """商品列表页"""
+
+#     # queryset = Goods.objects.all().order_by("goods_sn")
+#     # serializer_class = GoodsSerializer
+#     # pagination_class = GoodsPagination
+
+#     # def get_queryset(self):
+#     #     queryset = Goods.objects.all().order_by("goods_sn")
+#     #     price_min = self.request.query_params.get("price_min", default=0)
+#     #     if price_min:
+#     #         queryset = queryset.filter(shop_price__gt=int(price_min))
+
+#     #     return queryset
+
+#     # 通过django-filters的**DjangoFilterBackend**类实现字段过滤。
+#     queryset = Goods.objects.all()
+#     serializer_class = GoodsSerializer
+#     pagination_class = GoodsPagination
+
+#     filter_backends = [DjangoFilterBackend]
+#     filterset_fields = ["name", "market_price"]
+
 class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
-    """商品列表页"""
+    '''商品列表页'''
 
-    # queryset = Goods.objects.all().order_by("goods_sn")
-    # serializer_class = GoodsSerializer
-    # pagination_class = GoodsPagination
-
-    # def get_queryset(self):
-    #     queryset = Goods.objects.all().order_by("goods_sn")
-    #     price_min = self.request.query_params.get("price_min", default=0)
-    #     if price_min:
-    #         queryset = queryset.filter(shop_price__gt=int(price_min))
-
-    #     return queryset
-
-    # 通过django-filters的**DjangoFilterBackend**类实现字段过滤。
-    queryset = Goods.objects.all()
+    # queryset = Goods.objects.all()
+    queryset = Goods.objects.all().order_by("goods_sn")
     serializer_class = GoodsSerializer
     pagination_class = GoodsPagination
-
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["name", "market_price"]
+    filter_class = GoodsFilter
