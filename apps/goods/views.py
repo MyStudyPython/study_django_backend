@@ -7,7 +7,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Goods
 from .serializers import GoodsSerializer
-from .filters import GoodsFilter # 导入自定义模糊匹配过滤器
+from .filters import GoodsFilter  # 导入自定义模糊匹配过滤器
 
 # Create your views here.
 
@@ -71,12 +71,14 @@ class GoodsPagination(PageNumberPagination):
 #     filter_backends = [DjangoFilterBackend]
 #     filterset_fields = ["name", "market_price"]
 
+
 class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
-    '''商品列表页'''
+    """商品列表页"""
 
     # queryset = Goods.objects.all()
     queryset = Goods.objects.all().order_by("goods_sn")
     serializer_class = GoodsSerializer
     pagination_class = GoodsPagination
     filter_backends = [DjangoFilterBackend]
-    filter_class = GoodsFilter
+    # 这里需要将 filter_class 改为 filterset_class
+    filterset_class = GoodsFilter
