@@ -73,13 +73,17 @@ class GoodsPagination(PageNumberPagination):
 
 
 class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
-    """商品列表页"""
+    """商品列表页，并实现分页、搜索、过滤、排序"""
 
     # queryset = Goods.objects.all()
     queryset = Goods.objects.all().order_by("goods_sn")
     serializer_class = GoodsSerializer
     pagination_class = GoodsPagination
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
     # 这里需要将 filter_class 改为 filterset_class
     filterset_class = GoodsFilter
 
@@ -87,3 +91,6 @@ class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     # search_fields = ["name", "goods_brief", "goods_desc"]
     # 取消模糊匹配
     search_fields = ["=name", "goods_brief", "goods_desc"]
+
+    # 新增排序
+    ordering_fields = ["sold_num", "market_price"]
