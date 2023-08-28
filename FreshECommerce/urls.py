@@ -28,7 +28,7 @@ from .settings import MEDIA_ROOT
 
 # from goods.views_base import GoodsListView
 # from goods.views import GoodsListView
-from goods.views import GoodsListViewSet
+from goods.views import GoodsListViewSet, CategoryViewSet
 
 # from rest_framework.documentation import include_docs_urls
 
@@ -50,7 +50,10 @@ schema_view = get_schema_view(
 router = DefaultRouter()
 
 # 配置goods的路由
-router.register("goods", GoodsListViewSet, basename="goods-list")
+router.register("goods", GoodsListViewSet, basename="goods")
+
+# 配置categories的路由
+router.register("categories", CategoryViewSet, basename="categories")
 
 urlpatterns = [
     # path("xadmin/", xadmin.site.urls),

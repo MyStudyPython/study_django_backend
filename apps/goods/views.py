@@ -5,8 +5,8 @@ from rest_framework import mixins, viewsets, filters
 from rest_framework.pagination import PageNumberPagination
 from django_filters.rest_framework import DjangoFilterBackend
 
-from .models import Goods
-from .serializers import GoodsSerializer
+from .models import Goods, GoodsCategory
+from .serializers import GoodsSerializer, CategorySerializer
 from .filters import GoodsFilter  # 导入自定义模糊匹配过滤器
 
 # Create your views here.
@@ -94,3 +94,14 @@ class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
 
     # 新增排序
     ordering_fields = ["sold_num", "market_price"]
+
+
+# class CategoryViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+# mixins.RetrieveModelMixin 是一个用于处理获取单个对象详情的混合类。当你在视图集中使用该混合类时，它会自动配置路由来处理 GET 请求，并使用对象的 ID 或其他唯一标识来获取该对象的详情
+class CategoryViewSet(
+    mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet
+):
+    """商品分类列表数据"""
+
+    queryset = GoodsCategory.objects.all()
+    serializer_class = CategorySerializer
