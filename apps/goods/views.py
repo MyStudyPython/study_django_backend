@@ -1,4 +1,4 @@
-from rest_framework import mixins, viewsets
+from rest_framework import mixins, viewsets, filters
 
 # from rest_framework.views import APIView
 # from rest_framework.response import Response
@@ -79,6 +79,11 @@ class GoodsListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     queryset = Goods.objects.all().order_by("goods_sn")
     serializer_class = GoodsSerializer
     pagination_class = GoodsPagination
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     # 这里需要将 filter_class 改为 filterset_class
     filterset_class = GoodsFilter
+
+    # 新增搜索
+    # search_fields = ["name", "goods_brief", "goods_desc"]
+    # 取消模糊匹配
+    search_fields = ["=name", "goods_brief", "goods_desc"]
