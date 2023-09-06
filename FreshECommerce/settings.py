@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     # 精确搜索
     "django_filters",
+    "corsheaders",  # 解决浏览器跨域问题
 ]
 
 
@@ -72,7 +73,14 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",  # 解决浏览器跨域问题
+    "django.middleware.common.CommonMiddleware",  # 解决浏览器跨域问题
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True  # 解决浏览器跨域问题
+CORS_ALLOW_CREDENTIALS = True  # 解决浏览器跨域问题
+
+SECURE_CROSS_ORIGIN_OPENER_POLICY = "None"  # Django4 特定解决浏览器跨域问题
 
 ROOT_URLCONF = "FreshECommerce.urls"
 
