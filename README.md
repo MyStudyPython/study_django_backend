@@ -562,3 +562,15 @@ REST_FRAMEWORK = {
 ```sh
 ImportError: Could not import 'rest_framework.schemas.coreapi.AutoSchema' for API setting 'DEFAULT_SCHEMA_CLASS'. ModuleNotFoundError: No module named 'rest_framework.schemas.coreapi'
 ```
+
+
+# 重新运行项目的步骤
+## 步骤一
+```sh
+pip install -r requirements.txt
+```
+
+## 步骤二
+```sh
+python manage.py runserver
+```
